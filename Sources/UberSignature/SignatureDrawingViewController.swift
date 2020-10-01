@@ -38,16 +38,23 @@ public class SignatureDrawingViewController: UIViewController {
      */
     public init(image: UIImage? = nil) {
         super.init(nibName: nil, bundle: nil)
+        self.presetImage = image
     }
     
-    /// Use init(image:) instead.
+    @available(*, unavailable)
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     /// Returns an image of the signature (with a transparent background).
     public var fullSignatureImage: UIImage? {
         return model.fullSignatureImage
+    }
+
+    /// Returns a PDF of the signature (with a transparent background).
+    public var fullSignaturePDF: Data? {
+        Data()
+        //return model.fullSignatureImage
     }
     
     /**
@@ -182,7 +189,7 @@ public class SignatureDrawingViewController: UIViewController {
 extension Set where Element == UITouch {
     var touchPoint: CGPoint? {
         let touch = first
-        
+
         return touch?.location(in: touch?.view)
     }
 }

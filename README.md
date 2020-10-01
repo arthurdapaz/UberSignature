@@ -1,6 +1,6 @@
 ![Uber Signature](ubersignature.png)
 
-Swift version now available!
+Swift version ~now available~ only!
 
 Mimicking pen-on-paper signatures with a touch screen presents a difficult set of challenges.
 
@@ -17,11 +17,6 @@ The package provides a SignatureDrawingViewController that detects the touches a
 ### To use:
 
 Instantiate a SignatureDrawingViewController, optionally with an image that will be the starting signature.
-
-ObjC:
-```
-[[UBSignatureDrawingViewController alloc] initWithImage:image];
-```
 
 Swift:
 ```

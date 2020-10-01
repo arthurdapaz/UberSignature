@@ -42,6 +42,9 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     
     /// The image of the immutable signature (doesn't include the temporaryPath)
     var signatureImage: UIImage?
+
+    /// The PDF data of the immutable signature (doesn't include the temporaryPath)
+    var signaturePDF: Data?
     
     /**
      The bezier path for the mutable part of the signature.
@@ -52,6 +55,11 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     /// Generates an image of the signatureImage including the temporaryPath.
     var fullSignatureImage: UIImage? {
         return signatureImage(adding: temporaryPath)
+    }
+
+    /// Generates a PDF data of the signaturePDF including the temporaryPath.
+    var fullSignaturePDF: Data? {
+        return signaturePDF(adding: temporaryPath)
     }
     
     /**
@@ -69,6 +77,9 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
             
             // Resize signature image
             signatureImage = SignatureDrawingModel.generateImage(withImageA: signatureImage, imageB: nil, bezierPath: nil, color: signatureColor, size: imageSize)
+
+            // Resize signature PDF
+            signaturePDF = SignatureDrawingModel.generatePDF(withImageA: signatureImage, imageB: nil, bezierPath: nil, color: signatureColor, size: imageSize)
         }
     }
     
@@ -89,6 +100,7 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     /// Ends the current continuous signature line (equivilent to lifting your finger off the screen)
     func endContinuousLine() {
         signatureImage = fullSignatureImage
+        signaturePDF = fullSignaturePDF
         temporaryPath = nil
         bezierProvider.reset()
     }
@@ -96,6 +108,7 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     /// Resets the whole model, clears current signature.
     func reset() {
         signatureImage = nil
+        signaturePDF = nil
         temporaryPath = nil
         bezierProvider.reset()
     }
@@ -106,6 +119,8 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
      */
     func addImageToSignature(_ image: UIImage) {
         signatureImage = SignatureDrawingModel.generateImage(withImageA: signatureImage, imageB: image, bezierPath: nil, color: signatureColor, size: imageSize)
+
+        signaturePDF = SignatureDrawingModel.generatePDF(withImageA: signatureImage, imageB: image, bezierPath: nil, color: signatureColor, size: imageSize)
     }
     
     // MARK: SignatureBezierProviderDelegate
@@ -116,6 +131,7 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     
     func generatedFinalizedBezier(_ bezier: UIBezierPath) {
         signatureImage = signatureImage(adding: bezier)
+        signaturePDF = signaturePDF(adding: bezier)
     }
     
     // MARK: Private
@@ -125,13 +141,16 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     private func signatureImage(adding path: UIBezierPath?) -> UIImage? {
         return SignatureDrawingModel.generateImage(withImageA: signatureImage, imageB: nil, bezierPath: path, color: signatureColor, size: imageSize)
     }
+
+    private func signaturePDF(adding path: UIBezierPath?) -> Data? {
+        return SignatureDrawingModel.generatePDF(withImageA: signatureImage, imageB: nil, bezierPath: path, color: signatureColor, size: imageSize)
+    }
     
     // MARK: Helpers
     
     private class func generateImage(withImageA imageA: UIImage?, imageB: UIImage?, bezierPath: UIBezierPath?, color: UIColor, size: CGSize) -> UIImage? {
-        guard size.isPositive && (imageA != nil || imageB != nil || bezierPath != nil) else {
-            return nil
-        }
+
+        guard size.isPositive && (imageA != nil || imageB != nil || bezierPath != nil) else { return nil }
         
         let imageFrame = CGRect(origin: CGPoint.zero, size: size)
         UIGraphicsBeginImageContextWithOptions(imageFrame.size, false, 0)
@@ -149,6 +168,40 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
         UIGraphicsEndImageContext()
         
         return result
+    }
+
+    private class func generatePDF(withImageA imageA: UIImage?, imageB: UIImage?, bezierPath: UIBezierPath?, color: UIColor, size: CGSize) -> Data? {
+
+        guard size.isPositive && (imageA != nil || imageB != nil || bezierPath != nil) else { return nil }
+
+        guard let mutableData = CFDataCreateMutable(nil, 0),
+              let dataConsumer = CGDataConsumer(data: mutableData)
+        else { return nil }
+
+        let imageFrame = CGRect(origin: CGPoint.zero, size: size)
+
+        var rect = CGRect(origin: .zero, size: imageFrame.size)
+
+        guard let pdfContext = CGContext(consumer: dataConsumer, mediaBox: &rect, nil) else { return nil }
+
+        pdfContext.beginPDFPage(nil)
+        pdfContext.translateBy(x: 0, y: imageFrame.height)
+        pdfContext.scaleBy(x: 1, y: -1)
+
+        imageA?.draw(in: rect)
+        imageB?.draw(in: rect)
+
+        if let path = bezierPath {
+            pdfContext.addPath(path.cgPath)
+        }
+
+        pdfContext.setStrokeColor(color.cgColor)
+        pdfContext.strokePath()
+        pdfContext.saveGState()
+        pdfContext.endPDFPage()
+        pdfContext.closePDF()
+
+        return mutableData as Data
     }
 
 }
