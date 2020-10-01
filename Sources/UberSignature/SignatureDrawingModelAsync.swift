@@ -63,7 +63,7 @@ class SignatureDrawingModelAsync {
      Call this after asyncUpdate(withPoint:) to asynchronously get the updated elements.
      - note: Closure will be executed on the thread this function was called on.
      */
-    func asyncGetOutput(_ closure: @escaping ( (signatureImage: UIImage?, temporarySignatureBezierPath: UIBezierPath?) ) -> () ) {
+    func asyncGetOutput(_ closure: @escaping ((signatureImage: UIImage?, temporarySignatureBezierPath: UIBezierPath?)) -> Void) {
         let currentQueue = OperationQueue.current
         
         operationQueue.addOperation {
@@ -81,6 +81,10 @@ class SignatureDrawingModelAsync {
     /// Generates an image of the signatureImage including the temporaryPath.
     var fullSignatureImage: UIImage? {
         return model.fullSignatureImage
+    }
+
+    var fullSignaturePDF: Data? {
+        return model.fullSignaturePDF
     }
     
     /**

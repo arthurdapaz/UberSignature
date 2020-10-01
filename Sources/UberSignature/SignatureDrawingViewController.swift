@@ -53,7 +53,7 @@ public class SignatureDrawingViewController: UIViewController {
 
     /// Returns a PDF of the signature (with a transparent background).
     public var fullSignaturePDF: Data? {
-        Data()
+        return model.fullSignaturePDF
         //return model.fullSignatureImage
     }
     

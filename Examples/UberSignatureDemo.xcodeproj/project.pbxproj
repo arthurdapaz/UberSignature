@@ -3,20 +3,20 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2540FAD925266645003C3CE5 /* UberSignature in Frameworks */ = {isa = PBXBuildFile; productRef = 2540FAD825266645003C3CE5 /* UberSignature */; };
 		814BED28206D89CA0025D3AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814BED27206D89CA0025D3AD /* AppDelegate.swift */; };
 		814BED2A206D89CA0025D3AD /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814BED29206D89CA0025D3AD /* DemoViewController.swift */; };
 		814BED2D206D89CA0025D3AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 814BED2B206D89CA0025D3AD /* Main.storyboard */; };
 		814BED2F206D89CA0025D3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 814BED2E206D89CA0025D3AD /* Assets.xcassets */; };
 		814BED32206D89CA0025D3AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 814BED30206D89CA0025D3AD /* LaunchScreen.storyboard */; };
-		EDE606828AECA3131AC16BEE /* Pods_UberSignature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F49BFE4B7FBDA24301B7313 /* Pods_UberSignature.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		52B48880C18FEC5F213B76D4 /* Pods-UberSignature.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UberSignature.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UberSignature/Pods-UberSignature.debug.xcconfig"; sourceTree = "<group>"; };
+		2540FAD425266629003C3CE5 /* UberSignature */ = {isa = PBXFileReference; lastKnownFileType = folder; name = UberSignature; path = ..; sourceTree = "<group>"; };
 		814BED24206D89CA0025D3AD /* UberSignatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UberSignatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		814BED27206D89CA0025D3AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		814BED29206D89CA0025D3AD /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
@@ -24,8 +24,6 @@
 		814BED2E206D89CA0025D3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		814BED31206D89CA0025D3AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		814BED33206D89CB0025D3AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9F49BFE4B7FBDA24301B7313 /* Pods_UberSignature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UberSignature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BAAC1CFF00CDACD2B962C112 /* Pods-UberSignature.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UberSignature.release.xcconfig"; path = "Pods/Target Support Files/Pods-UberSignature/Pods-UberSignature.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,26 +31,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDE606828AECA3131AC16BEE /* Pods_UberSignature.framework in Frameworks */,
+				2540FAD925266645003C3CE5 /* UberSignature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4857C2F5CAF09BC9F60B7139 /* Pods */ = {
+		2540FAD725266645003C3CE5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				52B48880C18FEC5F213B76D4 /* Pods-UberSignature.debug.xcconfig */,
-				BAAC1CFF00CDACD2B962C112 /* Pods-UberSignature.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		509183A0297234082A225085 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9F49BFE4B7FBDA24301B7313 /* Pods_UberSignature.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -61,9 +49,9 @@
 			isa = PBXGroup;
 			children = (
 				814BED26206D89CA0025D3AD /* UberSignature */,
+				2540FAD425266629003C3CE5 /* UberSignature */,
 				814BED25206D89CA0025D3AD /* Products */,
-				4857C2F5CAF09BC9F60B7139 /* Pods */,
-				509183A0297234082A225085 /* Frameworks */,
+				2540FAD725266645003C3CE5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,18 +91,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 814BED36206D89CB0025D3AD /* Build configuration list for PBXNativeTarget "UberSignatureDemo" */;
 			buildPhases = (
-				F6234CF1BF2E270A6CC61D4C /* [CP] Check Pods Manifest.lock */,
 				814BED20206D89CA0025D3AD /* Sources */,
 				814BED21206D89CA0025D3AD /* Frameworks */,
 				814BED22206D89CA0025D3AD /* Resources */,
-				157E380DE51377F6749B1BC5 /* [CP] Embed Pods Frameworks */,
-				B608023E31EC5756A4D3984B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = UberSignatureDemo;
+			packageProductDependencies = (
+				2540FAD825266645003C3CE5 /* UberSignature */,
+			);
 			productName = UberSignature;
 			productReference = 814BED24206D89CA0025D3AD /* UberSignatureDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -144,6 +132,8 @@
 				Base,
 			);
 			mainGroup = 814BED1B206D89CA0025D3AD;
+			packageReferences = (
+			);
 			productRefGroup = 814BED25206D89CA0025D3AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -165,59 +155,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		157E380DE51377F6749B1BC5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-UberSignature/Pods-UberSignature-frameworks.sh",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UberSignature.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UberSignature/Pods-UberSignature-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B608023E31EC5756A4D3984B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UberSignature/Pods-UberSignature-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F6234CF1BF2E270A6CC61D4C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-UberSignature-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		814BED20206D89CA0025D3AD /* Sources */ = {
@@ -353,21 +290,24 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		814BED37206D89CB0025D3AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 52B48880C18FEC5F213B76D4 /* Pods-UberSignature.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5F83KRY2FH;
+				DEVELOPMENT_TEAM = 622S95HT2D;
 				INFOPLIST_FILE = "$(SRCROOT)/UberSignature/Other Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Uber.UberSignature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -377,14 +317,16 @@
 		};
 		814BED38206D89CB0025D3AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAAC1CFF00CDACD2B962C112 /* Pods-UberSignature.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5F83KRY2FH;
+				DEVELOPMENT_TEAM = 622S95HT2D;
 				INFOPLIST_FILE = "$(SRCROOT)/UberSignature/Other Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Uber.UberSignature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -414,6 +356,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2540FAD825266645003C3CE5 /* UberSignature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UberSignature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 814BED1C206D89CA0025D3AD /* Project object */;
 }

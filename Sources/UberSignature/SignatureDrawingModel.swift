@@ -51,6 +51,8 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
      This is still being drawn and doesn't have enough points to make a full bezier and be drawn into the signatureImage yet.
      */
     var temporaryPath: UIBezierPath?
+
+    var temporaryPaths: [UIBezierPath] = []
     
     /// Generates an image of the signatureImage including the temporaryPath.
     var fullSignatureImage: UIImage? {
@@ -79,7 +81,7 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
             signatureImage = SignatureDrawingModel.generateImage(withImageA: signatureImage, imageB: nil, bezierPath: nil, color: signatureColor, size: imageSize)
 
             // Resize signature PDF
-            signaturePDF = SignatureDrawingModel.generatePDF(withImageA: signatureImage, imageB: nil, bezierPath: nil, color: signatureColor, size: imageSize)
+            signaturePDF = SignatureDrawingModel.generatePDF(withBezier: temporaryPath, temporaryPaths: &temporaryPaths, color: signatureColor, size: imageSize)
         }
     }
     
@@ -120,7 +122,7 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     func addImageToSignature(_ image: UIImage) {
         signatureImage = SignatureDrawingModel.generateImage(withImageA: signatureImage, imageB: image, bezierPath: nil, color: signatureColor, size: imageSize)
 
-        signaturePDF = SignatureDrawingModel.generatePDF(withImageA: signatureImage, imageB: image, bezierPath: nil, color: signatureColor, size: imageSize)
+        signaturePDF = SignatureDrawingModel.generatePDF(withBezier: temporaryPath, temporaryPaths: &temporaryPaths, color: signatureColor, size: imageSize)
     }
     
     // MARK: SignatureBezierProviderDelegate
@@ -131,7 +133,9 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     
     func generatedFinalizedBezier(_ bezier: UIBezierPath) {
         signatureImage = signatureImage(adding: bezier)
-        signaturePDF = signaturePDF(adding: bezier)
+
+        temporaryPaths.append(bezier)
+        signaturePDF = signaturePDF(adding: nil)
     }
     
     // MARK: Private
@@ -143,7 +147,7 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
     }
 
     private func signaturePDF(adding path: UIBezierPath?) -> Data? {
-        return SignatureDrawingModel.generatePDF(withImageA: signatureImage, imageB: nil, bezierPath: path, color: signatureColor, size: imageSize)
+        return SignatureDrawingModel.generatePDF(withBezier: path, temporaryPaths: &temporaryPaths, color: signatureColor, size: imageSize)
     }
     
     // MARK: Helpers
@@ -170,44 +174,36 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
         return result
     }
 
-    private class func generatePDF(withImageA imageA: UIImage?, imageB: UIImage?, bezierPath: UIBezierPath?, color: UIColor, size: CGSize) -> Data? {
+    private class func generatePDF(withBezier: UIBezierPath?, temporaryPaths: inout [UIBezierPath], color: UIColor, size: CGSize) -> Data? {
+        guard size.isPositive else { return nil }
 
-        guard size.isPositive && (imageA != nil || imageB != nil || bezierPath != nil) else { return nil }
-
-        guard let mutableData = CFDataCreateMutable(nil, 0),
-              let dataConsumer = CGDataConsumer(data: mutableData)
-        else { return nil }
-
-        let imageFrame = CGRect(origin: CGPoint.zero, size: size)
-
-        var rect = CGRect(origin: .zero, size: imageFrame.size)
-
-        guard let pdfContext = CGContext(consumer: dataConsumer, mediaBox: &rect, nil) else { return nil }
-
-        pdfContext.beginPDFPage(nil)
-        pdfContext.translateBy(x: 0, y: imageFrame.height)
-        pdfContext.scaleBy(x: 1, y: -1)
-
-        imageA?.draw(in: rect)
-        imageB?.draw(in: rect)
-
-        if let path = bezierPath {
-            pdfContext.addPath(path.cgPath)
+        if let newBezier = withBezier {
+            temporaryPaths.append(newBezier)
         }
 
-        pdfContext.setStrokeColor(color.cgColor)
-        pdfContext.strokePath()
-        pdfContext.saveGState()
-        pdfContext.endPDFPage()
-        pdfContext.closePDF()
+        let imageFrame = CGRect(origin: CGPoint.zero, size: size)
+        let renderer = UIGraphicsPDFRenderer(bounds: imageFrame)
 
-        return mutableData as Data
+        let data = renderer.pdfData { ctx in
+            ctx.beginPage()
+
+            ctx.cgContext.setStrokeColor(color.cgColor)
+            ctx.cgContext.setFillColor(color.cgColor)
+
+            for path in temporaryPaths {
+                ctx.cgContext.addPath(path.cgPath)
+                path.stroke()
+                path.fill()
+            }
+        }
+
+        return data
     }
 
 }
 
 extension CGSize {
     var isPositive: Bool {
-        return width > 0 && height > 0
+        width > 0 && height > 0
     }
 }

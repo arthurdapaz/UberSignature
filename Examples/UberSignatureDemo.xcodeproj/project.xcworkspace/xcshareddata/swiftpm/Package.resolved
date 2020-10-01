@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "UberSignature",
+        "repositoryURL": "https://github.com/arthurdapaz/UberSignature",
+        "state": {
+          "branch": null,
+          "revision": "d0ba585b542b3414515bcd416b477dd713800209",
+          "version": "1.0.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
