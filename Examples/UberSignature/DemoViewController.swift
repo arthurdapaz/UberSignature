@@ -24,58 +24,74 @@ import UIKit
 import UberSignature
 
 class DemoViewController: UIViewController, SignatureDrawingViewControllerDelegate {
-    
-    // MARK: UIViewController
-    
+
+    private let signatureViewController = SignatureDrawingViewController()
+
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var saveImageButton: UIButton!
+    @IBOutlet weak var savePdfButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = UIColor.white
-        
-        signatureViewController.delegate = self
+        setupSignatureView()
+    }
+
+    func setupSignatureView() {
         addChildViewController(signatureViewController)
         view.addSubview(signatureViewController.view)
+        signatureViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        signatureViewController.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        signatureViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        signatureViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        signatureViewController.view.bottomAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
         signatureViewController.didMove(toParentViewController: self)
-        
-        resetButton.addTarget(self, action: #selector(resetTapped), for: .touchUpInside)
-        view.addSubview(resetButton)
-        
-        // Constraints
-        
-        resetButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints([
-            NSLayoutConstraint.init(item: resetButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 20),
-            NSLayoutConstraint.init(item: resetButton, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 20),
-            
-            NSLayoutConstraint.init(item: signatureViewController.view, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint.init(item: signatureViewController.view, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0),
-            NSLayoutConstraint.init(item: signatureViewController.view, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint.init(item: signatureViewController.view, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0),
-            ])
-        
-        
+
+        signatureViewController.delegate = self
     }
-    
+
     // MARK: SignatureDrawingViewControllerDelegate
-    
     func signatureDrawingViewControllerIsEmptyDidChange(controller: SignatureDrawingViewController, isEmpty: Bool) {
         resetButton.isHidden = isEmpty
+        savePdfButton.isHidden = isEmpty
+        saveImageButton.isHidden = isEmpty
     }
-    
-    // MARK: Private
-    
-    private let signatureViewController = SignatureDrawingViewController()
-    
-    private let resetButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("Reset", for: .normal)
-        button.setTitleColor(UIColor.blue, for: .normal)
-        return button
-    }()
-    
-    @objc private func resetTapped() {
+
+
+    @IBAction func resetAction(_ sender: Any) {
         signatureViewController.reset()
     }
-    
-}
 
+    @IBAction func saveImage(_ sender: Any) {
+
+        guard let signatureImage = signatureViewController.fullSignatureImage else { return }
+        
+        UIImageWriteToSavedPhotosAlbum(signatureImage, nil, nil, nil)
+
+    }
+
+    var activityViewController: UIActivityViewController!
+
+    @IBAction func safePDF(_ sender: Any) {
+        guard let signaturePDF = signatureViewController.fullSignaturePDF else { return }
+
+        let temporary = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        let pdfPath = temporary.appendingPathComponent("Signature.pdf")
+        try! signaturePDF.write(to: pdfPath)
+
+//        FileManager.default.createFile(atPath: pdfPath.path, contents: signaturePDF, attributes: [.type : "application/pdf"])
+
+
+        activityViewController = UIActivityViewController(activityItems: [pdfPath], applicationActivities: nil)
+        activityViewController.modalPresentationStyle = .popover
+        if let controller = activityViewController.popoverPresentationController {
+
+            controller.sourceView = saveImageButton
+            controller.permittedArrowDirections = .down
+        }
+        present(activityViewController, animated: true)
+
+    }
+
+}

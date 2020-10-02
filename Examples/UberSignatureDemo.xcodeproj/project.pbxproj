@@ -76,10 +76,10 @@
 		814BED39206D89E20025D3AD /* Other Files */ = {
 			isa = PBXGroup;
 			children = (
-				814BED2B206D89CA0025D3AD /* Main.storyboard */,
 				814BED2E206D89CA0025D3AD /* Assets.xcassets */,
-				814BED30206D89CA0025D3AD /* LaunchScreen.storyboard */,
 				814BED33206D89CB0025D3AD /* Info.plist */,
+				814BED30206D89CA0025D3AD /* LaunchScreen.storyboard */,
+				814BED2B206D89CA0025D3AD /* Main.storyboard */,
 			);
 			path = "Other Files";
 			sourceTree = "<group>";

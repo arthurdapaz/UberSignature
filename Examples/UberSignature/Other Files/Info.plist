@@ -41,5 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Needs this key set for saving to PhotoRoll</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Saves signatures to photo library</string>
 </dict>
 </plist>

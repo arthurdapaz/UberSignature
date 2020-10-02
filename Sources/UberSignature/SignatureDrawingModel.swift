@@ -112,6 +112,7 @@ class SignatureDrawingModel: SignatureBezierProviderDelegate {
         signatureImage = nil
         signaturePDF = nil
         temporaryPath = nil
+        temporaryPaths.removeAll()
         bezierProvider.reset()
     }
     
